@@ -1,0 +1,56 @@
+{% if posts %}
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h3>
+                <a href="{{ path('node_cat_show_blog') }}">
+                    Последние новости
+                </a>
+            </h3>
+
+
+            <div class="row">
+                <div class="col-lg-12">
+                <div class="fotorama"
+                     data-width="100%"
+                     data-height="326">
+                    {% for slidePosts in posts %}
+                        <div>
+                            <div class="row node-index-slider">
+
+                                {% for item in slidePosts %}
+                               <div class="col-lg-6 node-index-slider__item">
+                                   <h4 style="
+                                                font-size: 18px;
+                                                color: #0E0E0F;
+                                                font-family: days;
+                                            ">
+                                        <a style="color: #5D5D5D;" href="{{ path('node_show_blog_page', {'slug': item.slug}) }}">
+                                            {{ item.title }}
+                                        </a>
+                                    </h4>
+                                   <p>
+                                       {{ item.shortMain }}
+                                   </p>
+
+                                   <div class="row">
+                                       <div class="col-lg-12 col-lg-6 node-index-slider__item-cover text-center">
+                                           {% if item.img %}
+                                               <img src="{{ asset(item.img[0]|imagine_filter('node_slider_cover')) }}" alt="">
+                                           {% endif %}
+                                       </div>
+                                   </div>
+                                </div>
+                                {% endfor %}
+
+
+                            </div>
+                        </div>
+                    {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endif %}

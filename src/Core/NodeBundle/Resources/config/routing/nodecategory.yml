@@ -1,0 +1,30 @@
+node_cat_manager:
+    path:     /manager
+    defaults: { _controller: "NodeBundle:NodeCategory:manager" }
+
+node_cat_new:
+    path:     /new
+    defaults: { _controller: "NodeBundle:NodeCategory:new" }
+
+node_cat_create:
+    path:     /create
+    defaults: { _controller: "NodeBundle:NodeCategory:create" }
+    methods:  POST
+
+node_cat_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "NodeBundle:NodeCategory:edit" }
+
+node_cat_update:
+    path:     /{id}/update
+    defaults: { _controller: "NodeBundle:NodeCategory:update" }
+    methods:  [POST, PUT]
+
+node_cat_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "NodeBundle:NodeCategory:delete" }
+    methods:  [POST, DELETE]
+
+node_cat_show:
+    path:     /{slug}
+    defaults: { _controller: "NodeBundle:NodeCategory:show" }

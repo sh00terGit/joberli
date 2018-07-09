@@ -1,0 +1,9 @@
+<div class="left_menu">
+    {% for item in albums %}
+        {% if item.id == active %}
+            <div>{{ item.title }}</div>
+        {% else %}
+        <a href="{{ path('node_show_gallery_page', {'slug': item.slug}) }}">{{ item.title }}</a>
+        {% endif %}
+    {% endfor %}
+</div>

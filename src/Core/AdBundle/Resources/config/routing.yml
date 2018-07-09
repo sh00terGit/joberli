@@ -1,0 +1,23 @@
+ad_adcategory:
+    resource: "@AdBundle/Resources/config/routing/category.yml"
+    prefix:   /category
+
+ad_ad:
+    resource: "@AdBundle/Resources/config/routing/ad.yml"
+    prefix:   /ad
+
+ad_task:
+    resource: "@AdBundle/Resources/config/routing/adtask.yml"
+    prefix:   /ad/task
+
+ad_order:
+    resource: "@AdBundle/Resources/config/routing/order.yml"
+    prefix:   /ad_order
+
+ad_favorite:
+    resource: "@AdBundle/Resources/config/routing/adfavorite.yml"
+    prefix:   /ad/favorite
+
+core_index:
+    path:     /
+    defaults: { _controller: "AdBundle:Ad:index" }

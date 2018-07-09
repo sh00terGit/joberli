@@ -1,0 +1,3 @@
+adtask_list:
+    path:     /
+    defaults: { _controller: "AdBundle:AdTask:index" }

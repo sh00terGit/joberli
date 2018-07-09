@@ -1,0 +1,12 @@
+core_notification_show:
+    path:     /notification/show{id}
+    defaults: { _controller: CoreBundle:Notification:show }
+    options:
+        expose: true
+
+
+#Настройки
+site_setting:
+    path:     /setting
+    defaults: { _controller: CoreBundle:Setting:index }
+    methods: [POST, GET]

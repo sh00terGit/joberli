@@ -1,0 +1,32 @@
+
+<div class="row">
+    <div class="col-lg-16">
+        {{ form_start(form, { 'attr': {'id': 'form_upload_file'}}) }}
+        <div class="form-group">
+            <label for="">Прикрепить изображение</label>
+            {{ form_widget(form.photo) }}
+        </div>
+        <button type="submit" class="btn btn-primary">Загрузить</button><span class="loader-ico"></span>
+        {{ form_end(form) }}
+    </div>
+</div>
+
+<div class="row" id="img-success" style="margin-top: 10px;">
+    {% if images is defined %}
+        {% for photo in images %}
+            <div class="col-lg-4" id="AdPh{{ photo.id }}">
+                    <div class="row block-thumbnail"  style="max-height: 112px; overflow: hidden;">
+                        <div style="position: absolute;top: 0;left: -15px;z-index: 1;" class="col-lg-16">
+                            <div class="btn-group">
+                                <a class="btn btn-danger btn-xs" onclick="delAdImage({{ photo.id }})"><i class="glyphicon glyphicon-trash"></i></a>
+                                <a class="btn btn-success btn-xs" onclick="CKEDITOR.instances['core_nodebundle_node_main'].insertHtml('<img src=\'{{ photo.photo.path }}\'/>');" ><i class="glyphicon glyphicon-plus"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-lg-16">
+                            <img class="img-responsive" style="min-height: 112px;" src="{{ photo.photo.path }}"/>
+                        </div>
+                    </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>

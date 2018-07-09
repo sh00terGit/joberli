@@ -1,0 +1,19 @@
+{% extends '@Core/main.html.twig' %}
+
+{% block all_content -%}
+    <tr>
+        <td style="padding:125px 0 50px 38px">
+        <a href="{{ path('node_cat_show_news') }}"><img src="{{ asset('bundles/core/images/hdr_lastnews.png') }}"></a><br><br>
+        <div class="div1"></div>
+        {% for item in last_news %}
+            <div id="news_date_{{ item.id }}" class="news_date" style="position:relative;z-index:1">{{ item.dateCreated|date('d.m.Y') }}</div>
+            <div id="news_title_{{ item.id }}" class="news_title">{{ item.title }}</div>
+            <a href="{{ path('node_show_news_page', {'slug': item.slug}) }}" class="more" onmouseover="document.getElementById('news_date_{{ item.id }}').style.color='black'; document.getElementById('news_title_{{ item.id }}').style.color='#9f0067';" onmouseout="document.getElementById('news_date_{{ item.id }}').style.color='#666'; document.getElementById('news_title_{{ item.id }}').style.color='black';">Подробнее</a>
+            <br>
+        {% endfor %}
+        </td>
+        <td colspan="3"  id="main_block" style="width: 613px; padding: 76px 40px 110px 77px;">
+            {{ content.main|raw }}
+        </td>
+    </tr>
+{% endblock %}

@@ -1,0 +1,31 @@
+user_balance:
+    resource: "@UserBundle/Resources/config/routing/balance.yml"
+    prefix:   /user/balance
+
+user_page:
+    path:     /id{id}
+    defaults: { _controller: "UserBundle:User:index" }
+
+user_settings_page:
+    path:     /settings
+    defaults: { _controller: "UserBundle:User:settings" }
+
+user_dashboard:
+    path:     /user/dashboard
+    defaults: { _controller: "UserBundle:User:dashBoard" }
+
+users_manager:
+    path:     /user/manager
+    defaults: { _controller: UserBundle:User:manager }
+
+user_edit:
+    path:     /user/edit/{id}
+    defaults: { _controller: UserBundle:User:edit }
+
+user_stat:
+    path:     /user/stat
+    defaults: { _controller: UserBundle:User:stat }
+
+user_settings_edit:
+    path:     /user/editAdminSettings/{id}
+    defaults: { _controller: UserBundle:User:editSettings }

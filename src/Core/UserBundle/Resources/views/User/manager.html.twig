@@ -1,0 +1,55 @@
+{% extends 'CoreBundle::main.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="portlet light">
+                <div class="portlet-body">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Имя</th>
+                            <th>Почта</th>
+                            <th>Последний раз заходил</th>
+                            <th>Роль</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if users is defined %}
+                            {% for item in users %}
+                                <tr>
+                                    <td>{{ item.id }}</td>
+                                    <td>{{ item.username }}</td>
+                                    <td>{{ item.email }}</td>
+                                    <td>{{ item.lastLogin|date }}</td>
+                                    <td>
+                                        {% for roleItem in item.roles %}
+                                            <span class="label label-default" style="font-size: 12px;">{{ roleItem }}</span>
+                                        {% endfor %}
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true">
+                                                <i class="fa fa-cog"></i> <i class="fa fa-angle-down"></i>
+                                            </button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li>
+                                                    <a href="{{ path('user_edit', {'id': item.id}) }}">
+                                                        Редактировать
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

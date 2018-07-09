@@ -1,0 +1,29 @@
+.node-index-slider__item {
+    background: #fff;
+    border: 1px #dddddd solid;
+    padding: 15px;
+    margin-right: 20px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    height: 326px;
+    font-size: 12px;
+    width:47%;
+}
+.node-index-slider__item p {
+    font-size: 14px;
+    line-height: 18px;
+    height: 54px;
+    color: #777777;
+    overflow: hidden;
+}
+
+.node-index-slider__item-cover {
+    width: 100%;
+    padding-left: 0px;
+    height: 149px;
+    overflow-y: hidden;
+}
+.node-index-slider .node-index-slider__item:first-child {
+    margin-left: 27px;
+}

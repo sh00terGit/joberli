@@ -1,0 +1,25 @@
+{% extends '@Core/main.html.twig' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="page-header">
+                    <h1>Настройки сайта</h1>
+                </div>
+
+                <form action="{{ path('site_setting') }}" method="post">
+                    {% for item in settings %}
+                        <div class="form-group">
+                            <label>{{ item.title }}</label>
+                            <input class="form-control" type="text" name="{{ item.link }}" value="{{ item.value }}" >
+                        </div>
+                    {% endfor %}
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-primary">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

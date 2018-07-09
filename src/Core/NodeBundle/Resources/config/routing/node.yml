@@ -1,0 +1,44 @@
+node:
+    path:     /
+    defaults: { _controller: "NodeBundle:Node:index" }
+
+node_manager:
+    path:     /manager
+    defaults: { _controller: "NodeBundle:Node:manager" }
+
+node_show:
+    path:     /show/{category}/{slug}.html
+    defaults: { _controller: "NodeBundle:Node:show" }
+
+node_new:
+    path:     /new
+    defaults: { _controller: "NodeBundle:Node:new" }
+
+node_create:
+    path:     /create
+    defaults: { _controller: "NodeBundle:Node:create" }
+    methods:  POST
+
+node_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "NodeBundle:Node:edit" }
+
+node_update:
+    path:     /{id}/update
+    defaults: { _controller: "NodeBundle:Node:update" }
+    methods:  [POST, PUT]
+
+node_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "NodeBundle:Node:delete" }
+    methods:  [POST, DELETE]
+
+node_delete_photo:
+    path:     /delete_photo/{id}
+    defaults: { _controller: "NodeBundle:Gallery:deletePhoto" }
+    requirements: { _method: post|delete }
+
+
+node_attach_load:
+    path:     /load
+    defaults: { _controller: "NodeBundle:Gallery:load" }

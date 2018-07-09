@@ -1,0 +1,59 @@
+{% extends '@Core/main.html.twig' %}
+
+{% block content -%}
+    <h1>Менеджер контента</h1>
+
+    <div class="row" style="margin-bottom: 20px;">
+        <div class="col-lg-12">
+            <div class="btn-group pull-right">
+                <a class="btn btn-success" href="{{ path('node_new') }}">Создать</a>
+
+                <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <i class="glyphicon glyphicon glyphicon-cog"></i> <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="{{ path('node_cat_new') }}">Добавить категорию</a></li>
+                    <li><a href="{{ path('node_cat_manager') }}">Менеджер категорий</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-bordered table-condensed">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Просмотры</th>
+                <th>Заголовок</th>
+                <th>Категория</th>
+                <th>Создание</th>
+                <th>Обновление</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td>{{ entity.id }}</td>
+                <td>{{ entity.views }}</td>
+                <td>
+                    {% if entity.category.id == 1 %}
+                    <a href="{{ path('node_show_page', { 'slug': entity.slug }) }}">{{ entity.title }}</a>
+                    {% else %}
+                        <a href="{{ path('node_show', { 'slug': entity.slug, 'category': entity.category.id }) }}">{{ entity.title }}</a>
+                    {% endif %}<br/>
+                    <span style="font-size: 12px;" class="text-muted">{{ entity.slug }}</span>
+                </td>
+                <td>
+                    {{ entity.category.title }}
+                </td>
+                <td>{% if entity.dateCreated %}{{ entity.dateCreated|date('Y.m.d') }}{% endif %}</td>
+                <td>{% if entity.dateUpdated %}{{ entity.dateUpdated|date('Y.m.d') }}{% endif %}</td>
+                <td>
+                    <a href="{{ path('node_edit', { 'id': entity.id }) }}">edit</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endblock %}

@@ -1,0 +1,93 @@
+<?php
+
+namespace Core\NodeBundle\Entity;
+
+use Gedmo\Mapping\Annotation as Gedmo;
+use Doctrine\ORM\Mapping as ORM;
+use Core\UserBundle\Entity\User;
+
+/**
+ * @ORM\Table(name="Node")
+ * @ORM\Entity()
+ */
+class Node
+{
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="Node_Id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var integer
+     *
+     * @ORM\ManyToOne(targetEntity="NodeCategory")
+     * @ORM\JoinColumn(onDelete="CASCADE", referencedColumnName="Nc_Id", name="Node_Category", nullable=false)
+     */
+    private $category;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="Node_Views", type="integer", nullable=true)
+     */
+    private $views;
+
+    /**
+     * @var integer
+     *
+     * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User")
+     * @ORM\JoinColumn(onDelete="CASCADE", name="Node_Usr_Create", referencedColumnName="Usr_Id", nullable=false)
+     */
+    private $userCreate;
+
+
+    /**
+     * @var string
+     * @ORM\Column(name="Node_Title", type="string", length=255)
+     */
+    private $title;
+
+    /**
+     * @var \DateTime $created
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime", name="Node_Date_Create")
+     */
+    private $dateCreated;
+
+    /**
+     * @var \DateTime $updated
+     *
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime", name="Node_Date_Update")
+     */
+    private $dateUpdated;
+
+    /**
+     * @Gedmo\Slug(fields={"title"})
+     * @ORM\Column(name="Node_Slug", length=225, unique=true)
+     */
+    private $slug;
+
+
+
+    /**
+     * @var string
+     * @ORM\Column(name="Node_Main", type="text")
+     */
+    private $main;
+
+
+
+    /**
+     * @var string
+     * @ORM\Column(name="Node_Short_Main", type="text")
+     */
+    private $short_main;
+
+}

@@ -1,0 +1,47 @@
+{% extends '@Core/main-front.html.twig' %}
+
+{% block main -%}
+    <div class="row" style="margin-top: 10px">
+        <div class="col-lg-16">
+            <ol class="breadcrumb">
+                <li><a href="{{ path('node_manager') }}">Контент</a></li>
+                <li><a href="{{ path('node_cat_manager') }}">Категории</a></li>
+                <li class="active">Редактировать</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 10px">
+        <div class="col-lg-16">
+            <h1>Редактирование каетегории</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            {{ form_start(edit_form) }}
+            <div class="form-group {% if form_errors(edit_form.title) %}has-error{% endif %}">
+                <label for="">Название</label>
+                {{ form_widget(edit_form.title, {'attr': {'class': 'form-control'}}) }}
+                {% if form_errors(edit_form.title) %}
+                    <p class="help-block text-danger">
+                        {{ form_errors(edit_form.title) }}
+                    </p>
+                {% endif %}
+            </div>
+            <div class="form-group {% if form_errors(edit_form.main) %}has-error{% endif %}">
+                <label for="">Описание</label>
+                {{ form_widget(edit_form.main, {'attr': {'class': 'form-control'}}) }}
+                {% if form_errors(edit_form.main) %}
+                    <p class="help-block text-danger">
+                        {{ form_errors(edit_form.main) }}
+                    </p>
+                {% endif %}
+            </div>
+
+            {{ form_widget(edit_form.submit, {'attr': {'class': 'btn btn-primary'}}) }}
+            {{ form_end(edit_form) }}
+        </div>
+    </div>
+
+{% endblock %}

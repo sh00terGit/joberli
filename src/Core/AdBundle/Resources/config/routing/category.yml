@@ -1,0 +1,35 @@
+adcategory:
+    path:     /
+    defaults: { _controller: "AdBundle:AdCategory:index" }
+
+adcategory_new:
+    path:     /new
+    defaults: { _controller: "AdBundle:AdCategory:new" }
+
+adcategory_create:
+    path:     /create
+    defaults: { _controller: "AdBundle:AdCategory:create" }
+    methods:  POST
+
+adcategory_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AdBundle:AdCategory:edit" }
+
+adcategory_update:
+    path:     /{id}/update
+    defaults: { _controller: "AdBundle:AdCategory:update" }
+    methods:  [POST, PUT]
+
+adcategory_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AdBundle:AdCategory:delete" }
+    methods:  [POST, DELETE]
+
+adcategory_levelmanager:
+    path:     /level_manager
+    defaults: { _controller: "AdBundle:AdCategory:levelManager" }
+
+adcategory_show:
+    path:     /{slug}/{child_slug}
+    defaults: { _controller: "AdBundle:AdCategory:show", child_slug: null }
+

@@ -1,0 +1,12 @@
+msg_create_dialog:
+    path:     /message/create_dialog/{recipient}
+    defaults: { _controller: "MessageBundle:Message:createDialog" }
+    options:
+        expose: true
+
+
+msg_get_messages:
+    path:     /message/get_messages/{id}
+    defaults: { _controller: "MessageBundle:Message:getMessages" }
+    options:
+        expose: true

@@ -1,0 +1,12 @@
+{% extends 'CoreBundle::main.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/ad/js/create_ad.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+    {{ form_start(form, { 'attr': {'id': 'form_upload_file'}}) }}
+        {{ form_widget(form.photo, {'attr': {'onchange': 'this.submit()'}}) }}
+    {{ form_end(form) }}
+{% endblock %}

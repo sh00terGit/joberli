@@ -1,0 +1,63 @@
+{% extends 'CoreBundle::main.html.twig' %}
+
+{% block page_cover %}
+    <div class="container-fluid">
+        <div class="row" style="background: url({{ asset(user.coverImg | imagine_filter('user_page_cover')) }}); background-size: cover; height: 400px;
+            padding-top: 150px; margin-bottom: -230px; -webkit-filter: brightness(0.7);">
+            <div class="col-lg-12 text-center">
+            </div>
+        </div>
+        <h1 style="font-family: days; font-size: 50px; color: #fff;position: relative;text-align: center;top: -10px;">{{ user.username }}</h1>
+    </div>
+{% endblock %}
+{% block content %}
+    <div class="row" >
+        <div class="col-lg-12">
+            <div class="portlet light">
+                <div class="portlet-body">
+                    <div class="row" style="margin-top: -100px;">
+                        <div class="col-lg-3">
+                                {% if avatar_form is defined %}
+                                    {{ form_start(avatar_form) }}
+                                        <label for="core_userbundle_userdata_avatar" style="cursor:pointer;" class="tooltips" data-container="body"
+                                                title="Сменить фото">
+                                            <img class="img-circle" src="{{ asset(user.avatarImg)|imagine_filter('ava_user_page') }}" alt=""/>
+                                        {{ form_widget(avatar_form.avatar, {'attr': {'style': 'display:none;', 'onchange': 'this.form.submit()'}}) }}
+                                        </label>
+                                    {{ form_widget(avatar_form) }}
+                                    {{ form_end(avatar_form) }}
+                                {% else %}
+                                    <img class="img-circle" src="{{ asset(user.avatarImg)|imagine_filter('ava_user_page') }}" alt=""/>
+                                {% endif %}
+                        </div>
+                        <div class="col-lg-1 pull-right">
+                            {% if cover_form is defined %}
+                                {{ form_start(cover_form) }}
+                                <label for="core_userbundle_userdata_cover" style="cursor:pointer;color: #A5A5A5;display: block;background: #000;text-align: center;width: 70px;height: 70px;line-height: 80px;border-radius: 50%;opacity: 0.6;" class="tooltips" data-container="body"
+                                       title="Сменить обложку">
+                                    <i style="font-size: 28px;" class="fa fa-camera"></i>
+                                    {{ form_widget(cover_form.cover, {'attr': {'style': 'display:none;', 'onchange': 'this.form.submit()'}}) }}
+                                </label>
+                                {{ form_widget(cover_form) }}
+                                {{ form_end(cover_form) }}
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% if user.userData.about %}
+                    <div class="row">
+                        <div class="col-lg-8" style="  font: 400 16px/24px 'Helvetica Neue', Helvetica, Arial, sans-serif;">
+                            <h2 style="font-weight: bold; font-family: days;">О {{ user.username }}</h2>
+                            {{ user.userData.about }}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    {{ render(controller('AdBundle:Ad:getByUser', {'id': user.id})) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% if ad.status == 0 %}
+    <span class="badge badge-default">Ожидает проверку</span>
+{% elseif ad.status == 1 %}
+    <span class="badge badge-success">Активная</span>
+{% elseif ad.status == 2 %}
+    <span class="badge badge-default">Приостановленное</span>
+{% elseif ad.status == 3 %}
+    <span class="badge badge-warning">Требует изменения</span>
+{% elseif ad.status == 4 %}
+    <span class="badge badge-danger">Отклоненные</span>
+{% endif %}

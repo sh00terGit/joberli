@@ -1,0 +1,37 @@
+{% extends 'CoreBundle::main.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12 user-balance-replenish-status">
+
+        </div>
+    </div>
+    <form id="user-balance-replenish" action="" method="post">
+        <div class="row">
+            <div class="col-lg-offset-3 col-lg-6 portlet light">
+                <div class="input-group input-group-lg">
+                    <input class="form-control" type="number" name="amount" placeholder="Сумма">
+                <span class="input-group-btn">
+                <button class="btn btn-success" type="submit">Внести</button>
+                </span>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock content %}
+{% block script %}
+    <script>
+        $('#user-balance-replenish').ajaxForm({
+            success: function (data) {
+                $('input[name=amount]').val('');
+                if (data.success) {
+                    $('.user-balance-replenish-status').html('' +
+                            '<div class="alert alert-success">' +
+                            'На ваш баланс была зачислена сумма $' + data.amount + ' и теперь составляет $' +
+                            data.balance +
+                            '</div>');
+                }
+            }
+        });
+    </script>
+{% endblock %}

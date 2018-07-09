@@ -1,0 +1,20 @@
+node_node:
+    resource: "@NodeBundle/Resources/config/routing/node.yml"
+    prefix:   /node
+
+node_show_page:
+    path:     /{slug}.html
+    defaults: { _controller: "NodeBundle:Node:show", category:1 }
+
+node_show_blog_page:
+    path:     /blog/{slug}.html
+    defaults: { _controller: "NodeBundle:Node:show", category:2 }
+
+
+node_cat_show_blog:
+    path:     /blog
+    defaults: { _controller: "NodeBundle:NodeCategory:show", slug:'blog' }
+
+node_node_cat:
+    resource: "@NodeBundle/Resources/config/routing/nodecategory.yml"
+    prefix:   /node_cat

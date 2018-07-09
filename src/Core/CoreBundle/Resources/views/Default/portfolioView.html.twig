@@ -1,0 +1,30 @@
+<div class="text-center">
+    <h1>{{ node.title }}</h1>
+    <div class="row" style="margin-bottom: 30px">
+        <div class="col-lg-16">
+            {{ node.dateCreated|date('d.m.Y') }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-16">
+            <a href="#" class="gallery-modal__close" data-dismiss="modal">×</a>
+            <div style="width: 843px; margin: 0 auto; position: relative;" class="fotorama"
+                 data-nav="thumbs">
+                {% for item in img %}
+                    <a href="{{ item }}"><img src="{{ item }}"></a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-16">
+            {{ node.shortMain }}
+        </div>
+    </div>
+</div>
+
+
+
+<link rel="stylesheet" href="{{ asset('bundles/core/js/fotorama/fotorama.css') }}"  />
+<script src="{{ asset('bundles/core/js/fotorama/fotorama.js') }}"></script>

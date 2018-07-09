@@ -1,0 +1,62 @@
+{% extends 'CoreBundle::main.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="page-header">
+                <h1>{{ page.title }}</h1>
+            </div>
+        </div>
+    </div>
+
+    {% if ads is defined %}
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="portlet light">
+                <div class="portlet-title">
+                    <div class="caption">
+                        Категории
+                    </div>
+                </div>
+                <div class="portlet-body todo-project-list-content" style="height: auto;">
+                    <div class="todo-project-list">
+                        {% if category is defined %}
+                            <ul class="nav nav-pills nav-stacked">
+                                {% for item in category %}
+                                    <li>
+                                        <a href="{{ path('adcategory_show', {'slug': item.0.path.path, 'child_slug':item.0.path.child}) }}?q={{ q }}">
+                                            {{ item.0.title }} ({{ item|length }})
+                                        </a>
+                                    </li>
+                                {% endfor %}
+
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-9">
+            <div class="row">
+
+                {% for item in ads %}
+                    {{ include('AdBundle:Ad:adShort.html.twig', {'ad': item, 'class' : 'col-lg-4'}) }}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% else %}
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="alert alert-info">
+                    Введите ключевые слова для поиска
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}
+

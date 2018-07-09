@@ -1,0 +1,480 @@
+<?php
+
+namespace Core\AdBundle\Entity;
+
+use Doctrine\Common\Collections\ArrayCollection;
+use DoctrineExtensions\Taggable\Taggable;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Core\UserBundle\Entity\User;
+
+/**
+ * @ORM\Table(name="AdOrder")
+ * @ORM\Entity(repositoryClass="AdRepository")
+ */
+class AdOrder
+{
+    public function __construct () {
+        $this->task = new ArrayCollection();
+    }
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+
+    /**
+     * @var \DateTime $adoptDate
+     *
+     * @ORM\Column(type="datetime", name="Ado_Date_Adopt", nullable=true)
+     */
+    private $adoptDate;
+
+    /**
+     * @var int
+     * @ORM\Column(name="Ado_Price", type="integer", nullable=false)
+     */
+    protected $price = 7;
+
+    /**
+     * @var int
+     * @ORM\Column(name="Ado_Amount", type="integer", nullable=false)
+     */
+    protected $amount = 7;
+
+    /**
+     * @var int
+     * @ORM\Column(name="Ado_Status", type="integer", nullable=false)
+     */
+    protected $status = 0;
+
+    /**
+     * @var string
+     * @ORM\Column(name="Ado_Title", type="string", nullable=false)
+     */
+    protected $title;
+
+    /**
+     * @var int
+     * @ORM\Column(name="Ado_Pay_Status", type="integer", nullable=false)
+     */
+    protected $payStatus = 0;
+
+
+    /**
+     * @var integer
+     *
+     * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User")
+     * @ORM\JoinColumn(onDelete="CASCADE", name="Ado_Seller", referencedColumnName="id", nullable=false)
+     */
+    protected $seller;
+
+
+    /**
+     * @var integer
+     *
+     * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User")
+     * @ORM\JoinColumn(onDelete="CASCADE", name="Ado_Venditore", referencedColumnName="id", nullable=false)
+     */
+    protected $venditore;
+
+
+    /**
+     * @var integer
+     *
+     * @ORM\ManyToOne(targetEntity="Core\AdBundle\Entity\Ad")
+     * @ORM\JoinColumn(onDelete="CASCADE", name="Ado_Ad", referencedColumnName="id", nullable=false)
+     */
+    protected $ad;
+
+
+    /**
+     * @var array
+     *
+     * @ORM\Column(name="Ado_Sub_Ad", type="array", nullable=true)
+     */
+    protected $subAd;
+
+
+    /**
+     * @var integer
+     *
+     * @ORM\ManyToOne(targetEntity="Core\MessageBundle\Entity\Thread")
+     * @ORM\JoinColumn(onDelete="CASCADE", name="Ado_Dialog", referencedColumnName="id", nullable=true)
+     */
+    protected $dialog;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Core\AdBundle\Entity\AdTask", mappedBy="order", cascade={"persist"})
+     */
+    private $task;
+
+    /**
+     * @var \DateTime $created
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime", name="Ado_Date_Create")
+     */
+    private $dateCreated;
+
+    /**
+     * @var \DateTime $updated
+     *
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime", name="Ado_Date_Update")
+     */
+    private $dateUpdated;
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @var integer
+     * @ORM\Column(name="Ado_Execut_Days", type="integer", nullable=false)
+     */
+    protected $executDays;
+
+    /**
+     * @var integer
+     * @ORM\Column(name="Ado_Execut_Days_Amount", type="integer", nullable=false)
+     */
+    protected $executDaysAmount;
+
+    /**
+     * Set price
+     *
+     * @param integer $price
+     *
+     * @return AdOrder
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * Get price
+     *
+     * @return integer
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * Set status
+     *
+     * @param integer $status
+     *
+     * @return AdOrder
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return integer
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set dateCreated
+     *
+     * @param \DateTime $dateCreated
+     *
+     * @return AdOrder
+     */
+    public function setDateCreated($dateCreated)
+    {
+        $this->dateCreated = $dateCreated;
+
+        return $this;
+    }
+
+    /**
+     * Get dateCreated
+     *
+     * @return \DateTime
+     */
+    public function getDateCreated()
+    {
+        return $this->dateCreated;
+    }
+
+    /**
+     * Set dateUpdated
+     *
+     * @param \DateTime $dateUpdated
+     *
+     * @return AdOrder
+     */
+    public function setDateUpdated($dateUpdated)
+    {
+        $this->dateUpdated = $dateUpdated;
+
+        return $this;
+    }
+
+    /**
+     * Get dateUpdated
+     *
+     * @return \DateTime
+     */
+    public function getDateUpdated()
+    {
+        return $this->dateUpdated;
+    }
+
+    /**
+     * Set seller
+     *
+     * @param \Core\UserBundle\Entity\User $seller
+     *
+     * @return AdOrder
+     */
+    public function setSeller(\Core\UserBundle\Entity\User $seller)
+    {
+        $this->seller = $seller;
+
+        return $this;
+    }
+
+    /**
+     * Get seller
+     *
+     * @return \Core\UserBundle\Entity\User
+     */
+    public function getSeller()
+    {
+        return $this->seller;
+    }
+
+    /**
+     * Set venditore
+     *
+     * @param \Core\UserBundle\Entity\User $venditore
+     *
+     * @return AdOrder
+     */
+    public function setVenditore(\Core\UserBundle\Entity\User $venditore)
+    {
+        $this->venditore = $venditore;
+
+        return $this;
+    }
+
+    /**
+     * Get venditore
+     *
+     * @return \Core\UserBundle\Entity\User
+     */
+    public function getVenditore()
+    {
+        return $this->venditore;
+    }
+
+    /**
+     * Set ad
+     *
+     * @param \Core\AdBundle\Entity\Ad $ad
+     *
+     * @return AdOrder
+     */
+    public function setAd(\Core\AdBundle\Entity\Ad $ad)
+    {
+        $this->ad = $ad;
+
+        return $this;
+    }
+
+    /**
+     * Get ad
+     *
+     * @return \Core\AdBundle\Entity\Ad
+     */
+    public function getAd()
+    {
+        return $this->ad;
+    }
+
+    /**
+     * @return array
+     */
+    public function getSubAd()
+    {
+        return $this->subAd;
+    }
+
+    /**
+     * @param AdSub $subAd
+     */
+    public function addSubAd(AdSub $subAd)
+    {
+        $data = array(
+            'title' => $subAd->getTitle(),
+            'price' => $subAd->getPrice(),
+            'execut_days' => $subAd->getExecutDays()
+        );
+
+        $this->subAd[] = $data;
+    }
+
+    /**
+     * @return int
+     */
+    public function getExecutDays()
+    {
+        return $this->executDays;
+    }
+
+    /**
+     * @param int $executDays
+     */
+    public function setExecutDays($executDays)
+    {
+        $this->executDays = $executDays;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPayStatus()
+    {
+        return $this->payStatus;
+    }
+
+    /**
+     * @param int $payStatus
+     */
+    public function setPayStatus($payStatus)
+    {
+        $this->payStatus = $payStatus;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAmount()
+    {
+        return $this->amount;
+    }
+
+    /**
+     * @param int $amount
+     */
+    public function setAmount($amount)
+    {
+        $this->amount = $amount;
+    }
+
+    /**
+     * @return int
+     */
+    public function getExecutDaysAmount()
+    {
+        return $this->executDaysAmount;
+    }
+
+    /**
+     * @param int $executDaysAmount
+     */
+    public function setExecutDaysAmount($executDaysAmount)
+    {
+        $this->executDaysAmount = $executDaysAmount;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAdoptDate()
+    {
+        return $this->adoptDate;
+    }
+
+    /**
+     * @param mixed $adoptDate
+     */
+    public function setAdoptDate($adoptDate)
+    {
+        $this->adoptDate = $adoptDate;
+    }
+
+    /**
+     * Set subAd
+     *
+     * @param array $subAd
+     *
+     * @return AdOrder
+     */
+    public function setSubAd($subAd)
+    {
+        $this->subAd = $subAd;
+
+        return $this;
+    }
+
+    /**
+     * Set dialog
+     *
+     * @param \Core\MessageBundle\Entity\Thread $dialog
+     *
+     * @return AdOrder
+     */
+    public function setDialog(\Core\MessageBundle\Entity\Thread $dialog = null)
+    {
+        $this->dialog = $dialog;
+
+        return $this;
+    }
+
+    /**
+     * Get dialog
+     *
+     * @return \Core\MessageBundle\Entity\Thread
+     */
+    public function getDialog()
+    {
+        return $this->dialog;
+    }
+}

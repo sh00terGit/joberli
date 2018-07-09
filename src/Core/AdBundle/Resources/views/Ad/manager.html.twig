@@ -1,0 +1,49 @@
+{% extends 'CoreBundle::main.html.twig' %}
+
+{% block content -%}
+    <h1>Ad list</h1>
+
+    <table class="table table-bordered table-condensed table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>User Create</th>
+                <th>Category</th>
+                <th>Created</th>
+                <th>Updated</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td>{{ entity.id }}</td>
+                <td><a href="{{ path('ad_show', { 'slug': entity.slug }) }}">{{ entity.title }}</a></td>
+                <td>{{ entity.userCreate.username }}</td>
+                <td>{{ entity.category.title }}</td>
+                <td>{{ entity.dateCreated|date }}</td>
+                <td>{{ entity.dateUpdated|date }}</td>
+                <td>
+                <div class="btn-group">
+                        <a class="btn btn-default btn-xs" href="{{ path('ad_show', { 'slug': entity.slug }) }}">
+                            <i class="glyphicon glyphicon-eye-open"></i>
+                        </a>
+                        <a class="btn btn-default btn-xs" href="{{ path('ad_edit', { 'id': entity.id }) }}">
+                            <i class="glyphicon glyphicon-edit"></i>
+                        </a>
+                </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('ad_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+    {% endblock %}

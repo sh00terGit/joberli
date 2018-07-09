@@ -1,0 +1,17 @@
+{% if user.level == 1 %}
+    <span class="badge badge-info label-level-lg shortPrfofile__level">
+        1
+    </span>
+{% elseif user.level == 2 %}
+    <span class="badge badge-success label-level-lg shortPrfofile__level">
+        2
+    </span>
+{% elseif user.level == 3 %}
+    <span class="badge badge-warning label-level-lg shortPrfofile__level">
+        3
+    </span>
+{% else %}
+    <span class="badge badge-default label-level-lg shortPrfofile__level">
+        0
+    </span>
+{% endif %}

@@ -1,0 +1,13 @@
+{% if order.payStatus and order.status == 0 %}
+    <span class="badge badge-info">Ожидание</span>
+{% elseif order.payStatus and order.status == 1 %}
+    <span class="badge badge-success">В процессе</span>
+{% elseif order.payStatus and order.status == 2 %}
+    <span class="badge badge-default">Заказ закрыт</span>
+{% else %}
+    {% if order.seller == app.user %}
+        <a href="{{ path('ad_order_pay', {'id': order.id}) }}" class="badge badge-default tooltips" title="Оплатить">Не оплачен</a>
+    {% else %}
+        <span class="badge badge-default">Не оплачен</span>
+    {% endif %}
+{% endif %}

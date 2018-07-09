@@ -1,0 +1,75 @@
+{% extends 'CoreBundle::main.html.twig' %}
+
+{% block level_style %}
+    <link  href="{{ asset('bundles/core/js/fotorama/fotorama.css') }}" rel="stylesheet">
+    <link  href="{{ asset('bundles/node/css/node-style.css') }}" rel="stylesheet">
+{% endblock %}
+{% block level_plugins %}
+    <script src="{{ asset('bundles/core/js/fotorama/fotorama.js') }}"></script>
+    <script src="{{ asset('bundles/message/js/message.js') }}"></script>
+{% endblock %}
+
+
+
+{% block page_cover %}
+
+    <div class="container" style="
+    position: relative;
+    z-index: 999;
+    margin-bottom: -146px;
+    top: 229px;
+">
+        <div class="row">
+            <div class="col-lg-6 col-lg-offset-3">
+                <div class="row">
+                    <div class="col-lg-12 text-center" style="height: 100px;">
+                        <h1>Текстовый текс</h1>
+                        <p>dddd</p>
+                    </div>
+                    <div class="col-lg-10 col-lg-offset-1">
+                        <form action="{{ path('ad_search') }}" class="input-group input-group-lg">
+                            <input type="text" name="q" class="form-control" placeholder="Что ищем?">
+                            <span class="input-group-btn">
+                                <button class="btn btn-success" type="submit">Найти</button>
+                            </span>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="fotorama" data-width="100%" data-height="435" data-autoplay="true"
+         style="margin-top: 105px; margin-bottom: -120px; height: 435px; overflow-y: hidden">
+        <div>
+            <img src="http://s.fotorama.io/okonechnikov/1-lo.jpg" style="width: 100%" alt="">
+        </div>
+        <div>
+            <img src="http://s.fotorama.io/okonechnikov/2-lo.jpg" style="width: 100%" alt="">
+        </div>
+        <div>
+            <img src="http://s.fotorama.io/okonechnikov/20-lo.jpg" style="width: 100%" alt="">
+        </div>
+        <div>
+            <img src="http://s.fotorama.io/okonechnikov/21-lo.jpg" style="width: 100%" alt="">
+        </div>
+        <div>
+            <img src="http://s.fotorama.io/okonechnikov/22-lo.jpg" style="width: 100%" alt="">
+        </div>
+    </div>
+{% endblock page_cover %}
+{% block content -%}
+<div class="row">
+    {% for item in entities %}
+    {{ include('AdBundle:Ad:adShort.html.twig', {'ad': item, 'class': 'col-lg-3' }) }}
+    {% endfor %}
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <hr>
+    </div>
+</div>
+
+{{ render(controller('NodeBundle:Node:blogSliderBlock')) }}
+{% endblock %}

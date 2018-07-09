@@ -1,0 +1,124 @@
+{% extends 'CoreBundle::main.html.twig' %}
+
+{% block level_style %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/metronic/plugins/jquery-nestable/jquery.nestable.css') }}"/>
+{% endblock %}
+{% block level_plugins %}
+    <script type="text/javascript" src="{{ asset('bundles/metronic/plugins/jquery-nestable/jquery.nestable.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <!-- BEGIN PORTLET-->
+            <div class="portlet light">
+                <div class="portlet-body">
+                    <div class="dd" id="nestable_list_1">
+                        {% if categories is defined %}
+                        <ol class="dd-list">
+                            {% for item in categories %}
+                            <li class="dd-item" data-id="{{ item.id }}">
+                                <div class="dd-handle">
+                                    {{ item.title }}
+                                </div>
+                                {% if item.child|length > 0 %}
+                                <ol class="dd-list">
+                                    {% for item_child in item.child %}
+                                    <li class="dd-item" data-id="{{ item_child.id }}">
+                                        <div class="dd-handle">
+                                            {{ item_child.title }}
+                                        </div>
+                                    </li>
+                                    {% endfor %}
+                                </ol>
+                                {% endif %}
+                            </li>
+                            {% endfor %}
+                            <li class="dd-item" data-id="999999999">
+                                <div class="dd-handle">
+                                    Прочее
+                                    {% if categories_other|length > 0 %}
+                                    <ol class="dd-list">
+                                        {% for item in categories_other %}
+                                            <li class="dd-item" data-id="{{ item.id }}">
+                                                <div class="dd-handle">
+                                                    {{ item.title }}
+                                                </div>
+                                            </li>
+                                        {% endfor %}
+                                    </ol>
+                                    {% endif %}
+                                </div>
+                            </li>
+                        </ol>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <!-- END PORTLET-->
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        var UINestable = function () {
+
+            var updateOutput = function (e) {
+                var list = e.length ? e : $(e.target),
+                        output = list.data('output');
+                if (window.JSON) {
+                    $.ajax({
+                        url: '{{ path('adcategory_levelmanager') }}',
+                        type: 'post',
+                        dataType: 'json',
+                        data: {list:list.nestable('serialize')},
+                        success: function (data) {
+
+                        }
+                        , error: function() {
+
+                        }
+                    });
+                    output.val(window.JSON.stringify(list.nestable('serialize'))); //, null, 2));
+                } else {
+                    output.val('JSON browser support required for this demo.');
+                }
+            };
+
+
+            return {
+                //main function to initiate the module
+                init: function () {
+
+                    // activate Nestable for list 1
+                    $('#nestable_list_1').nestable({
+                        group: 1
+                    })
+                            .on('change', updateOutput);
+
+                    // output initial serialised data
+                    updateOutput($('#nestable_list_1').data('output', $('#nestable_list_1_output')));
+
+                    $('#nestable_list_menu').on('click', function (e) {
+                        var target = $(e.target),
+                                action = target.data('action');
+                        if (action === 'expand-all') {
+                            $('.dd').nestable('expandAll');
+                        }
+                        if (action === 'collapse-all') {
+                            $('.dd').nestable('collapseAll');
+                        }
+                    });
+
+
+                }
+
+            };
+
+        }();
+    </script>
+{% endblock %}
+{% block script_init %}
+    UINestable.init();
+{% endblock %}

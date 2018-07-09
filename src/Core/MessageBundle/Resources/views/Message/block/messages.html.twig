@@ -1,0 +1,23 @@
+{% for message in messages %}
+    <div class="timeline-item"  id="message_{{ message.id }}">
+        <div class="timeline-badge">
+            <img class="timeline-badge-userpic" src="{{ asset(message.sender.avatarImg|imagine_filter('ava_chat')) }}">
+        </div>
+        <div class="timeline-body">
+            <div class="timeline-body-arrow">
+            </div>
+            <div class="timeline-body-head">
+                <div class="timeline-body-head-caption">
+                    <a href="{{ path('user_page', {'id': message.sender.id}) }}" class="timeline-body-title font-blue-madison">{{ message.sender.username }}</a>
+                    <span class="timeline-body-time font-grey-cascade">{{ message.createdAt|date }}</span>
+                </div>
+
+            </div>
+            <div class="timeline-body-content">
+                        <span class="font-grey-cascade">
+                        {{ message.body }}
+                        </span>
+            </div>
+        </div>
+    </div>
+{% endfor %}

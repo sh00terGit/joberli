@@ -1,0 +1,49 @@
+ad:
+    path:     /
+    defaults: { _controller: "AdBundle:Ad:index" }
+
+ad_manager:
+    path:     /manager
+    defaults: { _controller: "AdBundle:Ad:manager" }
+
+ad_favorite:
+    path:     /favorite
+    defaults: { _controller: "AdBundle:Ad:favorite" }
+
+ad_show:
+    path:     /{slug}.html
+    defaults: { _controller: "AdBundle:Ad:show" }
+
+ad_new:
+    path:     /new
+    defaults: { _controller: "AdBundle:Ad:new" }
+
+ad_create:
+    path:     /create
+    defaults: { _controller: "AdBundle:Ad:create" }
+    requirements: { _method: post }
+
+ad_create_load_category:
+    path:     /load_category
+    defaults: { _controller: "AdBundle:Ad:CategoryLoad" }
+    requirements: { _method: post }
+
+ad_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AdBundle:Ad:edit" }
+    requirements: { _method: post|put|get }
+
+ad_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AdBundle:Ad:delete" }
+    requirements: { _method: post|delete }
+
+ad_search:
+    path:     /search
+    defaults: { _controller: "AdBundle:Ad:search" }
+    requirements: { _method: get }
+
+ad_delete_photo:
+    path:     /delete_photo/{id}
+    defaults: { _controller: "AdBundle:Ad:deletePhoto" }
+    requirements: { _method: post|delete }

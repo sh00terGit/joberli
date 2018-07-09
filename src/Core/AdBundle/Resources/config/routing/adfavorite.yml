@@ -1,0 +1,4 @@
+ad_favorite_add:
+    path:     /addOrRemove.json
+    defaults: { _controller: "AdBundle:AdFavorite:addOrRemove" }
+    methods: [POST]

@@ -1,0 +1,51 @@
+ad_order_sale:
+    path:     /sale
+    defaults: { _controller: "AdBundle:Sale:index" }
+
+
+ad_order_sale_stat:
+    path:     /sale/stat
+    defaults: { _controller: "AdBundle:Sale:stat" }
+
+
+ad_order_sale_services:
+    path:     /sale/services
+    defaults: { _controller: "AdBundle:Sale:services" }
+
+
+ad_order_sale_finances:
+    path:     /sale/finances
+    defaults: { _controller: "AdBundle:Sale:finances" }
+
+ad_order_create:
+    path:     /create
+    defaults: { _controller: "AdBundle:AdOrder:create" }
+    requirements: { _method: post }
+
+ad_order_pay:
+    path:     /pay/{id}
+    defaults: { _controller: "AdBundle:AdOrder:pay" }
+
+ad_order_finish:
+    path:     /finish/revise/{id}
+    defaults: { _controller: "AdBundle:AdOrder:finish" }
+
+ad_order_remove:
+    path:     /remove/{id}.html
+    defaults: { _controller: "AdBundle:AdOrder:remove" }
+    options:
+        expose: true
+
+ad_order_adopt:
+    path:     /adopt/{id}.html
+    defaults: { _controller: "AdBundle:AdOrder:adopt" }
+    options:
+        expose: true
+
+ad_order_show:
+    path:     /{id}
+    defaults: { _controller: "AdBundle:AdOrder:show" }
+
+ad_order:
+    path:     /
+    defaults: { _controller: "AdBundle:AdOrder:index" }

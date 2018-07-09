@@ -1,0 +1,25 @@
+<div class="container-fluid">
+    <div class="row row-bottom">
+        <div class="container">
+            <div class="row">
+            {% if node is defined %}
+                {% for item in node %}
+                <div class="col-lg-4">
+                    <div class="row">
+                        <div class="col-lg-16">
+                            <a href="{{ path('node_show_service', {'slug': item.slug}) }}"><img src="{{ asset(item.cover|imagine_filter('node_bottom_cover')) }}" alt=""/></a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-16">
+                            <h2><a href="{{ path('node_show_service', {'slug': item.slug}) }}">{{ item.title }}</a></h2>
+                            {{ item.main|raw }}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>

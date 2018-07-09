@@ -1,0 +1,12 @@
+{% extends 'CoreBundle::main.html.twig' %}
+
+{% block content %}
+    {% for item in user.adFavorite %}
+        {{ include('AdBundle:Ad:adShort.html.twig', {'ad': item, 'class' : 'col-lg-3'}) }}
+    {% endfor %}
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}
+

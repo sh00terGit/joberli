@@ -1,0 +1,71 @@
+<?php
+
+namespace Core\AdBundle\Entity;
+
+use Doctrine\Common\Collections\ArrayCollection;
+use DoctrineExtensions\Taggable\Taggable;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Core\UserBundle\Entity\User;
+
+/**
+ * @ORM\Entity()
+ * @ORM\Table(name="AdTask")
+ */
+class AdTask
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+
+    /**
+     * @var integer
+     *
+     * @ORM\ManyToOne(targetEntity="Core\UserBundle\Entity\User")
+     * @ORM\JoinColumn(onDelete="CASCADE", name="Adt_User", referencedColumnName="id", nullable=false)
+     */
+    private $user;
+
+
+    /**
+     * @var integer
+     *
+     * @ORM\ManyToOne(targetEntity="Core\AdBundle\Entity\AdOrder")
+     * @ORM\JoinColumn(onDelete="CASCADE", name="Adt_Order", referencedColumnName="id", nullable=false)
+     */
+    private $order;
+
+    /**
+     * @var \DateTime $startDate
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime", name="Adt_Date_Start")
+     */
+    private $startDate;
+
+    /**
+     * @var \DateTime $startDate
+     *
+     * @ORM\Column(type="datetime", name="Adt_Date_End")
+     */
+    private $endDate;
+
+    /**
+     * @var integer
+     * @ORM\Column(name="Adt_Execut_Days", type="integer", nullable=false)
+     */
+    protected $executDays = 3;
+
+    /**
+     * @var integer
+     * @ORM\Column(name="Adt_Priority", type="boolean", nullable=false)
+     */
+    protected $priority = false;
+}

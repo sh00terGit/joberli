@@ -1,0 +1,40 @@
+{% extends 'CoreBundle::main.html.twig' %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-lg-11 col-main">
+            <h1>{{ node.title }}</h1>
+
+            {{ node.main|raw }}
+
+            <div class="row">
+                <div class="col-lg-16">
+                    <h2>СПЛОЧЕННАЯ КОМАНДА ПРОФЕССИОНАЛОВ</h2>
+
+                    <div class="row row-personel">
+                        {% for user in managers %}
+                        <div class="col-lg-8">
+                            <div class="row">
+                                <div class="col-lg-7">
+                                    <img src="{{ user.photo|imagine_filter('node_user_cover') }}" alt=""/>
+                                </div>
+                                <div class="col-lg-9">
+                                    <h5>{{ user.title }}</h5>
+                                    {{ user.main|raw }}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5 col-motiv">
+            <h3>{{ node_right.title }}</h3>
+            {{ node_right.main|raw }}
+
+        </div>
+    </div>
+{% endblock %}
+

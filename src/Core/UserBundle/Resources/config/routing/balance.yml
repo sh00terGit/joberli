@@ -1,0 +1,3 @@
+user_balance_replenish:
+    path:     /replenish
+    defaults: { _controller: "UserBundle:Balance:replenish" }

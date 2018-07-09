@@ -1,0 +1,24 @@
+services:
+    fuxcon2013.form.tags_entry:
+        class: Core\AdBundle\Form\TagsType
+        arguments: [ "@fpn_tag.tag_manager" ]
+        tags:
+            - { name: form.type, alias: tags_entry }
+
+    ad.manager.task:
+        class: Core\AdBundle\Manager\TaskManager
+        arguments:
+          - "@doctrine.orm.default_entity_manager"
+
+    ad.manager.stat:
+        class: Core\AdBundle\Manager\Stat
+        arguments:
+          - "@doctrine.orm.default_entity_manager"
+
+    ad.manager.level:
+        class: Core\AdBundle\Manager\Level
+        arguments:
+          - "@doctrine.orm.default_entity_manager"
+          - "@user.stat"
+          - "@ad.manager.stat"
+          - "@site.setting"

@@ -1,0 +1,100 @@
+{% extends 'CoreBundle::main.html.twig' %}
+
+{% block script %}
+
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="portlet light">
+                <div class="portlet-title">
+                    <div class="caption caption-md">
+                        Покупки
+                    </div>
+                    <div class="actions">
+                        <div class="btn-group btn-group-devided">
+                            <a href="{{ path('ad_order') }}?payStatus=0" class="btn btn-transparent grey-salsa btn-circle btn-sm
+                            {% if app.request.query.get('payStatus') == 0 and app.request.query.get('payStatus') != null  %}
+                            active
+                            {% endif %}
+                            ">
+                                Не оплаченные
+                            </a>
+                            <a href="{{ path('ad_order') }}" class="btn btn-transparent grey-salsa btn-circle btn-sm
+                            {% if app.request.query.get('payStatus') == null %}
+                            active
+                            {% endif %}
+                            ">
+                                Оплаченые
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    {% if orders %}
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Название</th>
+                                <th>Цена</th>
+                                <th>Продавец</th>
+                                <th>Статус</th>
+                                <th>Дни</th>
+                                <th>Дата</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for item in orders %}
+                                <tr id="adOrder{{ item.id }}">
+                                    <td>{{ item.id }}</td>
+                                    <td>
+                                        <a class="tooltips" title="Подробнее" href="{{ path('ad_order_show', {'id': item.id}) }}">
+                                            {{ item.title }}
+                                        </a>
+                                    </td>
+                                    <td>${{ item.amount }}</td>
+                                    <td>
+                                        <a class="tooltips" title="страница пользователя" href="{{ path('user_page', {'id': item.venditore.id}) }}">
+                                            {{ item.venditore.username }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        {{ include('@Ad/AdOrder/block/status.html.twig', {'order': item}) }}
+                                    </td>
+                                    <td>{{ item.executDaysAmount }}</td>
+                                    <td>{{ item.dateCreated|date('d.m.Y H:i') }}</td>
+                                    <td>
+                                        {% if item.payStatus %}
+
+                                        {% else %}
+                                            <a href="{{ path('ad_order_pay', {'id': item.id}) }}" class="btn btn-xs btn-success" title="Оплатить">Оплатить</a>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if item.payStatus %}
+
+                                        {% else %}
+                                            <a href="{{ path('ad_order_remove', {'id': item.id}) }}" data-target="#ajax-modal" data-toggle="modal" class="close tooltips" title="Удалить"></a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <div class="alert alert-info">
+                            Вы еще не заказывали
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block level_scripts %}
+    <script src="{{ asset('bundles/ad/js/adOrder.js') }}"></script>
+{% endblock %}

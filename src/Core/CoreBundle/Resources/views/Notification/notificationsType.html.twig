@@ -1,0 +1,14 @@
+{% if notification is defined %}
+<li>
+    {% if notification.type == 'balance_replenish' %}
+        <a id="topNotification{{ notification.id }}" onclick="deleteNotification({{ notification.id }}, {{ notification|length }})">
+            <span class="details">
+                <span class="label label-sm label-icon label-info">
+                <i class="fa fa-usd"></i>
+                </span>
+                {{ notification.main }}
+            </span>
+        </a>
+    {% endif %}
+</li>
+{% endif %}

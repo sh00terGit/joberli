@@ -1,0 +1,69 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+      <div class="row">
+        <div class="col-lg-4 col-lg-offset-4">
+            <div class="portlet light">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="icon-login"></i>&nbsp;
+                        <span class="caption-subject bold uppercase"> Авторизация</span>
+                    </div>
+                </div>
+                <div class="portlet body">
+
+                    {% if error %}
+                        <div class="alert alert-danger">
+                            <button class="close" data-close="alert"></button>
+                            <span>{{ error.messageKey|trans(error.messageData, 'security') }}</span>
+                        </div>
+                    {% endif %}
+
+                    <form action="{{ path("fos_user_security_check") }}" method="post" class="form-horizontal" role="form">
+
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+
+                        <div class="form-group">
+                            <label for="inputUsername" class="col-md-3 control-label">Логин:</label>
+                            <div class="col-md-8">
+                                <div class="input-icon right">
+                                    <i class="fa fa-envelope"></i>
+                                    <input type="text" class="form-control" id="inputUsername"  name="_username" value="{{ last_username }}" required="required">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword1" class="col-md-3 control-label">Пароль:</label>
+                            <div class="col-md-8">
+                                <div class="input-icon right">
+                                    <i class="fa fa-user"></i>
+                                    <input type="password" class="form-control" id="inputPassword1" placeholder="{{ 'security.login.password'|trans }}" id="password" name="_password" required="required">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-3 col-md-8">
+                                <div class="checkbox">
+                                    <label class="checkbox">
+                                        <input type="checkbox" id="remember_me" name="_remember_me" value="on"/>{{ 'security.login.remember_me'|trans }}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="submit" class="btn green">Войти</button><a href="{{ path('fos_user_resetting_request') }}" class="btn btn-link">Забыли пароль?</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="create-account">
+                    <a href="{{ path('fos_user_registration_register') }}" id="register-btn" class="btn blue btn btn-block btn-lg uppercase">Регистрация</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock fos_user_content %}

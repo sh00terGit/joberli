@@ -1,0 +1,272 @@
+{% extends 'CoreBundle::main.html.twig' %}
+
+{% block level_style %}
+    <link  href="{{ asset('bundles/core/js/fotorama/fotorama.css') }}" rel="stylesheet">
+{% endblock %}
+{% block level_plugins %}
+    <script src="{{ asset('bundles/core/js/fotorama/fotorama.js') }}"></script>
+    <script src="{{ asset('bundles/message/js/message.js') }}"></script>
+{% endblock %}
+{% block script_init %}
+{% endblock %}
+
+
+{% block content -%}
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="portlet light">
+                        <div class="portlet-body">
+                            <div class="row">
+                                <div class="col-lg-12 col-ad-show__title">
+                                    <h1>{{ entity.title }}</h1>
+                                    <span class="text-muted">Категория: <a href="{{ path('adcategory_show', {'slug': entity.category.path.path, 'child_slug':entity.category.path.child}) }}">{{ entity.category.title }}</a></span>
+                                    <div class="likes-b">
+                                        {% if entity.userFavorite | length > 0 %}
+                                            <span class="likes-b__count">{{ entity.userFavorite | length }}</span>
+                                        {% endif %}
+                                        {% if app.user and entity.isUserFavorite(app.user) %}
+                                            <a data-toggle="button"
+                                               data-productid="{{ entity.id }}"
+                                               class="btn btn-link tooltips adLike active"
+                                               data-container="body"
+                                               title="Убрать из избранного">
+                                                <i class="icon-heart"></i>
+                                            </a>
+                                        {% else %}
+                                            <a data-toggle="button"
+                                               data-productid="{{ entity.id }}"
+                                               class="btn btn-link tooltips adLike"
+                                               data-container="body"
+                                               title="Добавить в избранное">
+                                                <i class="icon-heart"></i>
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                    <hr/>
+                                </div>
+                                <div class="col-lg-12 col-ad-show__rating">
+                                    <div class="row">
+                                        <div class="col-lg-4"><i class="glyphicon glyphicon-eye-open"></i> Просмотров: {{ entity.views }}</div>
+                                        <div class="col-lg-4"><i class="glyphicon glyphicon-list-alt"></i> 0 Заказов в очереди</div>
+                                        <div class="col-lg-4"><i class="glyphicon glyphicon-time"></i> {{ entity.executDays }} дн. на выполнение</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12" style="padding: 0; padding-top: 15px;">
+                                    <div class="ad-show__fotorama fotorama"
+                                         data-width="840"
+                                         data-height="439">
+                                        {% for item in entity.photos if item.photo.path is defined %}
+                                            <a href="{{ item.photo.path|imagine_filter('ad_slider_show') }}"></a>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12 col-block">
+                    <div class="col-block__title">
+                        <h2>Описание</h2>
+                    </div>
+                    {{ entity.description }}
+                </div>
+            </div>
+
+            {% if entity.instruction %}
+            <div class="row">
+                <div class="col-lg-12 col-block">
+                    <div class="col-block__title">
+                        <h2>Инструкция покупателю</h2>
+                    </div>
+                    {{ entity.instruction }}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="col-lg-4" style="padding-left: 30px">
+            {% if app.user.id is not defined or app.user.id != entity.userCreate.id  %}
+            <form id="ad_order_create" action="{{ path('ad_order_create') }}" method="post">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="portlet light">
+                        <div class="portlet-body">
+                            <button
+                                    style="margin: 15px auto; margin-bottom: 0px; margin-top: -5px;"
+                                    type="submit"
+                                    class="btn btn-lg btn-block btn-success demo-loading-btn"
+                                    data-loading-text="Выполняю..."
+                                    >
+                                Заказать сейчас ($<span id="btn-order-price">7</span>)
+                            </button>
+                            <input type="hidden" name="ad" value="{{ entity.id }}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            {% if entity.subAd|length > 0 %}
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="portlet light">
+                        <div class="portlet-body">
+                            <table class="table table-striped table-hover">
+                                {% for subAd in entity.subAd %}
+                                    <tr>
+                                        <label>
+                                            <td style="width: 30px"><input name="subAd[]" value="{{ subAd.id }}" class="subAd__checkbox" type="checkbox" data-subad-price="{{ subAd.price }}"></td>
+                                            <td>{{ subAd.title }}</td>
+                                            <td>${{ subAd.price }}</td>
+                                        </label>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            </form>
+            {% else %}
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="portlet light">
+                        <div class="portlet-body">
+                            <a style="margin: 15px auto; margin-bottom: 0px" href="{{ path('ad_edit', { 'id': entity.id }) }}" class="btn btn-lg btn-block btn-primary">Редактировать</a>
+                            {{ form_start(delete_form, {'attr': {'style':'margin-top: 10px;'}}) }}
+                            {{ form_widget(delete_form.submit, {'attr': {'class':'btn btn-lg btn-block btn-danger'}}) }}
+                            {{ form_widget(delete_form) }}
+                            {{ form_end(delete_form) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                {% if entity.subAd|length > 0 %}
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="portlet light">
+                                <div class="portlet-body">
+                                    <table class="table table-striped table-hover">
+                                        {% for subAd in entity.subAd %}
+                                            <tr>
+                                                <label>
+                                                    <td style="width: 30px"><input name="subAd[]" value="{{ subAd.id }}" class="subAd__checkbox" type="checkbox" data-subad-price="{{ subAd.price }}"></td>
+                                                    <td>{{ subAd.title }}</td>
+                                                    <td>${{ subAd.price }}</td>
+                                                </label>
+                                            </tr>
+                                        {% endfor %}
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endif %}
+
+
+            {{ include('@User/User/shortProfile.html.twig', {'user': entity.userCreate}) }}
+
+            {% if entity.rating is defined and entity.rating|length >= 1 %}
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="portlet light">
+                        <div class="portlet-body">
+                            <div class="media">
+                                <h3>Отзывы ({{ entity.rating|length }})</h3>
+                                {% for item in entity.rating %}
+                                <div class="media">
+                                    <a href="{{ path('user_page', {'id': item.order.seller.id}) }}" class="pull-left">
+                                        <img alt="" src="{{ asset(item.order.seller.avatarImg)|imagine_filter('ava_xs') }}" class="media-object">
+                                    </a>
+                                    <div class="media-body">
+                                        <h4 class="media-heading">{{ item.order.seller.username }}
+                                            <span>
+                                                <input type="hidden" class="rating" data-readonly value="{{ item.rate }}"/>
+                                            </span>
+                                        </h4>
+                                        <p>
+                                        {{ item.comment }}
+                                        </p>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+
+            {% if entity.tags | length > 0 %}
+            <div class="row">
+                <div class="col-lg-12 col-block" style="padding-top: 15px;">
+                    <div class="portlet light">
+                        <div class="portlet-body">
+                            <h3>Теги</h3>
+                            <ul class="list-inline sidebar-tags">
+                                {% for item in entity.tags %}
+                                    <li>
+                                        <a href="javascript:;">
+                                            <i class="fa fa-tags"></i> {{ item.name }} </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="page-head">
+            <h2>Други услуги от пользователя <a href="{{ path('user_page', {'id': entity.userCreate.id}) }}">{{ entity.userCreate.username }}</a></h2>
+        </div>
+        {% for item in other.user %}
+            {{ include('AdBundle:Ad:adShort.html.twig', {'ad': item, 'class' : 'col-lg-3'}) }}
+        {% endfor %}
+    </div>
+
+    <div class="row">
+        <div class="page-head">
+            <h2>Други услуги в <a href="{{ path('adcategory_show', {'slug':entity.category.path.path, 'child_slug':entity.category.path.child}) }}">{{ entity.category.title }}</a></h2>
+        </div>
+        {% for item in other.category %}
+            {{ include('AdBundle:Ad:adShort.html.twig', {'ad': item, 'class' : 'col-lg-3'}) }}
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        $('.subAd__checkbox').change(function () {
+
+            var amount = parseInt($('#btn-order-price').text());
+            var subAdPrice = parseInt($(this).attr('data-subad-price'));
+            if ($(this).prop("checked")) {
+                amount = amount+subAdPrice;
+            } else {
+                amount = amount-subAdPrice;
+            }
+            $('#btn-order-price').text(amount);
+        });
+
+
+        $('#ad_order_create').ajaxForm({
+            success: function (data) {
+                location.href=data.redirect;
+            }
+        });
+    </script>
+{% endblock %}

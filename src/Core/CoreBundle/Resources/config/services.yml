@@ -1,0 +1,13 @@
+services:
+    site.setting:
+        class: Core\CoreBundle\Services\Setting
+        arguments:
+          - "@doctrine.orm.default_entity_manager"
+    core.notification:
+        class: Core\CoreBundle\Services\NotificationService
+        arguments:
+          - "@doctrine.orm.default_entity_manager"
+    core.transaction:
+        class: Core\CoreBundle\Services\TransactionService
+        arguments:
+          - "@doctrine.orm.default_entity_manager"

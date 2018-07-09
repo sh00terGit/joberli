@@ -1,0 +1,43 @@
+<div class="row row-category-top-menu" id="adCategoryTopMenu" style="padding: 0 5px;">
+    <div class="col-lg-12" style="background: #fff;">
+        <ul>
+            {% if categories is defined %}
+                {% for item in categories %}
+                <li class="category-item btn-group"  role="menu">
+                    {% if item.child|length > 0 %}
+                    <a href="{{ path('adcategory_show', {'slug': item.slug}) }}" class="dropdown-toggle" data-hover="dropdown" data-close-others="true"  data-toggle="dropdown">
+                        {{ item.title }}
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                    {% for item_child in item.child %}
+                        <li>
+                            <a href="{{ path('adcategory_show', {'child_slug': item_child.slug, 'slug': item.slug}) }}">
+                                {{ item_child.title }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                    {% else %}
+                    <a class="dropdown-toggle" href="{{ path('adcategory_show', {'slug': item.slug}) }}" >{{ item.title }}</a>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            {% endif %}
+            {% if categories_others is defined and categories_others|length > 0 %}
+            <li class="category-item btn-group pull-right"  role="menu">
+
+                <a href="#"  data-hover="dropdown">Прочее</a>
+                <ul class="dropdown-menu pull-right" role="menu">
+                {% for item in categories_others %}
+                    <li>
+                        <a href="{{ path('adcategory_show', {'child_slug': item.path.child, 'slug': item.path.path}) }}">
+                            {{ item.title }}
+                        </a>
+                    </li>
+                {% endfor %}
+                </ul>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</div>

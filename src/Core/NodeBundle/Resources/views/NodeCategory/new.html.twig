@@ -1,0 +1,49 @@
+{% extends '@Core/main.html.twig' %}
+
+{% block level_scripts %}
+    <script src="{{ asset('bundles/core/js/ckeditor/ckeditor.js') }}"></script>
+{% endblock %}
+{% block content -%}
+    <div class="row" style="margin-top: 10px">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li><a href="{{ path('node_manager') }}">Контент</a></li>
+                <li><a href="{{ path('node_cat_manager') }}">Категории</a></li>
+                <li class="active">Создать</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <h1>Добавление каетегории</h1>
+
+            {{ form_start(form) }}
+            <div class="form-group {% if form_errors(form.title) %}has-error{% endif %}">
+                <label for="">Название</label>
+                {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+                {% if form_errors(form.title) %}
+                    <p class="help-block text-danger">
+                        {{ form_errors(form.title) }}
+                    </p>
+                {% endif %}
+            </div>
+            <div class="form-group {% if form_errors(form.main) %}has-error{% endif %}">
+                <label for="">Описание</label>
+                {{ form_widget(form.main, {'attr': {'class': 'form-control', 'id': 'ckeditor'}}) }}
+                {% if form_errors(form.main) %}
+                    <p class="help-block text-danger">
+                        {{ form_errors(form.main) }}
+                    </p>
+                {% endif %}
+            </div>
+
+            {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}}) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+    <script type="application/javascript">
+        CKEDITOR.replace('ckeditor');
+    </script>
+{% endblock %}

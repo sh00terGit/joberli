@@ -1,0 +1,53 @@
+{% extends 'CoreBundle::main.html.twig' %}
+
+{% block main %}
+<div class="row">
+    <div class="col-lg-16 col-main">
+        <h1>{{ node.title }}</h1>
+        {{ node.main|raw }}
+
+        <div class="row row-portfolio">
+
+            {% for item in nodes_portfolio %}
+            <div class="col-lg-5">
+                <div class="row">
+                    <div class="col-lg-16">
+                        <a style="cursor: pointer;" onclick="viewPortfolio({{ item.id }})">
+                            <img src="{{ asset(item.cover|imagine_filter('node_portfolio_cover')) }}" alt=""/>
+                        </a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-16">
+                        <h3>{{ item.title }}</h3>
+                        {{ item.date|date('d.m.Y') }}
+                        <p>{{ item.short_main }}</p>
+                        <a style="cursor: pointer;" onclick="viewPortfolio({{ item.id }})">Смотреть больше</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-16 col-portfolio-view">
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/core/js/porfolio.js') }}"></script>
+{% endblock %}
+

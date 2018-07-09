@@ -1,0 +1,42 @@
+{% extends 'CoreBundle::main.html.twig' %}
+
+{% block content %}
+
+
+    <div class="portlet light">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="icon-settings font-green-sharp"></i>
+                <span class="caption-subject font-green-sharp bold uppercase">
+                Редактирование пользователя {{ user.username }} </span>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="tabbable">
+                <ul class="nav nav-tabs">
+                    <li class="">
+                        <a href="#tab_general" data-toggle="tab" aria-expanded="false">
+                            Основное
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="#tab_meta" data-toggle="tab" aria-expanded="true">
+                            Доп. Информация
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content no-space">
+                    <div class="tab-pane" id="tab_general">
+                        {{ form_start(form, {'attr': {'id': 'user_bundle_user_admin_type'}}) }}
+                        {{ form_widget(form) }}
+                        {{ form_end(form) }}
+                    </div>
+                    <div class="tab-pane active" id="tab_meta">
+                        {{ render(controller('UserBundle:User:editSettings', {'id': user.userData.id})) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

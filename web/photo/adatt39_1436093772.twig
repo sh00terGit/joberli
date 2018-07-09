@@ -1,0 +1,109 @@
+{% if notification is defined %}
+<li>
+    {% if notification.type == 'admin_order_create' %}
+    <a href="{{ path('signa_order_manager_edit', {'id': notification.attr}) }}">
+        <span class="details">
+        <span class="label label-sm label-icon label-success">
+        <i class="fa fa-plus"></i>
+        </span>
+            {{ notification.title }} #{{ notification.attr }} </span>
+    </a>
+    {% elseif notification.type == 'order_new' %}
+        <a href="{{ path('signa_user_order_show', {'id': notification.attr}) }}">
+        <span class="details">
+        <span class="label label-sm label-icon label-success">
+        <i class="fa fa-plus"></i>
+        </span>
+            {{ notification.title }} #{{ notification.attr }} </span>
+        </a>
+    {% elseif notification.type == 'admin_order_perform' %}
+        <a href="{{ path('signa_order_manager_edit', {'id': notification.attr}) }}">
+        <span class="details">
+        <span class="label label-sm label-icon label-warning">
+        <i class="fa fa-photo"></i>
+        </span>
+            {{ notification.title }} #{{ notification.attr }} </span>
+        </a>
+    {% elseif notification.type == 'order_finish' %}
+        <a href="{{ path('signa_user_order_show', {'id': notification.attr}) }}">
+        <span class="details">
+        <span class="label label-sm label-icon label-info">
+        <i class="fa fa-check"></i>
+        </span>
+            Заказ #{{ notification.attr }} выполнен</span>
+        </a>
+
+    {% elseif notification.type == 'balance_enter' %}
+        <a href="{{ path('core_billing_edit', {'id': notification.attr}) }}">
+        <span class="details">
+        <span class="label label-sm label-icon label-danger">
+        <i class="fa fa-usd"></i>
+        </span>
+            {{ notification.title }}</span>
+        </a>
+
+    {% elseif notification.type == 'balance_enter_status_cancel' %}
+        <a href="#">
+        <span class="details">
+        <span class="label label-sm label-icon label-danger">
+        <i class="fa fa-warning"></i>
+        </span>
+            {{ notification.title }}</span>
+        </a>
+
+    {% elseif notification.type == 'balance_enter_status_success' %}
+        <a href="#">
+        <span class="details">
+        <span class="label label-sm label-icon label-success">
+        <i class="fa fa-check"></i>
+        </span>
+            {{ notification.title }}</span>
+        </a>
+
+    {% elseif notification.type == 'admin_new_signa' %}
+        <a href="{{ path('signa_manager_edit', {'id': notification.attr}) }}">
+        <span class="details">
+        <span class="label label-sm label-icon label-success">
+        <i class="fa fa-photo"></i>
+        </span>
+            {{ notification.title }}</span>
+        </a>
+
+    {% elseif notification.type == 'public_signa' %}
+        <a href="{{ path('signa_edit', {'id': notification.attr}) }}">
+        <span class="details">
+        <span class="label label-sm label-icon label-success">
+        <i class="fa fa-photo"></i>
+        </span>
+            {{ notification.title }}</span>
+        </a>
+
+    {% elseif notification.type == 'admin_new_user' %}
+        <a href="{{ path('user_edit', {'id': notification.attr}) }}">
+        <span class="details">
+        <span class="label label-sm label-icon label-success">
+        <i class="fa fa-child"></i>
+        </span>
+            {{ notification.title }}</span>
+        </a>
+
+    {% elseif notification.type == 'user_profile_public' %}
+        <a href="{{ path('fos_user_profile_show') }}">
+        <span class="details">
+        <span class="label label-sm label-icon label-success">
+        <i class="fa fa-check"></i>
+        </span>
+            {{ notification.title }}</span>
+        </a>
+
+    {% elseif notification.type == 'user_profile_looked' %}
+        <a href="{{ path('fos_user_profile_show') }}">
+        <span class="details">
+        <span class="label label-sm label-icon label-danger">
+        <i class="fa fa-warning"></i>
+        </span>
+            {{ notification.title }}</span>
+        </a>
+    {% endif %}
+</li>
+{% endif %}

@@ -1,0 +1,76 @@
+{% extends 'CoreBundle::main.html.twig' %}
+
+{% block content %}
+    <div class="row" style="margin-bottom: 20px;">
+        <div class="col-lg-12">
+            <a href="{{ path('ad_new') }}" class="btn btn-success">Добавить услугу</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2">
+            {{ include('@Ad/Sale/block/menu.html.twig') }}
+        </div>
+        <div class="col-lg-10">
+            <div class="portlet light">
+                <div class="portlet-title">
+                    <div class="caption">
+                        Мои услуги
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Фото</th>
+                            <th>Название</th>
+                            <th>Статус</th>
+                            <th>Рейтинг</th>
+                            <th>Просмотры</th>
+                            <th>Заказы</th>
+                            <th>Конверсия</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if ads %}
+                            {% for item in ads %}
+                            <tr>
+                                <td>{{ item.id }}</td>
+                                <td>
+                                    <img style="width: 50px;" src="{{ asset(item.cover) }}" alt="">
+                                </td>
+                                <td>
+                                    <a href="{{ path('ad_edit', {'id': item.id}) }}">
+                                        {{ item.title }}
+                                    </a>
+                                </td>
+                                <td>
+                                    {{ include('@Ad/Ad/block/statusLabel.html.twig', {'ad':item}) }}
+                                </td>
+                                <td></td>
+                                <td>{{ item.views }}</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="8">
+                                    <div class="alert alert-info">
+                                        Услуги не найдены
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block level_scripts %}
+
+{% endblock %}
+

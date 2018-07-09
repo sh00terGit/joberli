@@ -1,0 +1,5 @@
+<div class="row">
+    {% for item in ads %}
+        {{ include('AdBundle:Ad:adShort.html.twig', {'ad': item, 'class' : 'col-lg-4'}) }}
+    {% endfor %}
+</div>

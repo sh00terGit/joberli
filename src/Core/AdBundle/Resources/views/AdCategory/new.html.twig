@@ -1,0 +1,77 @@
+{% extends 'CoreBundle::main.html.twig' %}
+
+{% block content -%}
+    <div class="row">
+        <div class="col-lg-12">
+            <ul class="page-breadcrumb breadcrumb">
+                <li>
+                    <a href="{{ path('core_index') }}">Домой</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li>
+                    <a href="{{ path('adcategory') }}">Категории</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li>
+                    <a href="#">Добавление категории</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="portlet light">
+                <div class="portlet-body">
+                    {{ form_start(form) }}
+                    <div class="form-group">
+                        <label for="">Название</label>
+                        {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+                        {% if (form_errors(form.title)) %}
+                            <div class="help-block text-danger">
+                                {{ form_errors(form.title) }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="purse">Обложка</label>
+                        {{ form_widget(form.cover, {'attr': {'class': 'form-control'}}) }}
+                        {% if (form_errors(form.cover)) %}
+                            <div class="help-block text-danger">
+                                {{ form_errors(form.cover) }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Выбрерите родительскую категорию</label>
+                        {% if category is defined %}
+                            <select name="category" id="" class="form-control">
+                                <option value="0">Выберите категорию</option>
+                                {% for item in category %}
+                                    <option value="{{ item.id }}">{{ item.title }}</option>
+                                {% endfor %}
+                            </select>
+
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Описание</label>
+                        {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+                        {% if (form_errors(form.description)) %}
+                            <div class="help-block text-danger">
+                                {{ form_errors(form.description) }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}}) }}
+
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

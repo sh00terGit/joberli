@@ -1,0 +1,228 @@
+{% extends 'CoreBundle::main.html.twig' %}
+
+{% block level_style %}
+    <link href="{{ asset('bundles/metronic/admin/pages/css/timeline.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('bundles/ad/css/ad-style.css') }}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
+{% block level_scripts %}
+    <script src="{{ asset('bundles/ad/plugins/bootstrap-rating-master/bootstrap-rating.js') }}"></script>
+    <script src="{{ asset('bundles/ad/js/adOrder.js') }}"></script>
+    <script src="{{ asset('bundles/message/js/message.js') }}"></script>
+{% endblock %}
+
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="portlet light">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="icon-puzzle font-grey-gallery"></i>
+								<span class="caption-subject bold font-grey-gallery uppercase">
+								    {{ page.title }}
+                                </span>
+                                <span class="caption-helper">
+                                    #{{ order.id }}
+                                    {% if order.task %}
+                                     до {{ order.task.endDate|date('d.m.Y H:i') }}
+                                    {% endif %}
+                                    &nbsp;&nbsp;&nbsp;
+                                </span>
+                                
+                                {{ include('@Ad/AdOrder/block/status.html.twig', {'order': order}) }}
+                            </div>
+
+                            <div class="actions">
+                                {% if order.payStatus and order.status == 0 and app.user == order.venditore %}
+                                    <a href="{{ path('ad_order_adopt', {'id': order.id}) }}" data-target="#ajax-modal" data-toggle="modal" class="btn btn-success tooltips" title="Принять заказ">
+                                        <i class="glyphicon glyphicon-ok"></i>
+                                    </a>
+                                {% elseif order.payStatus and order.status == 1 and app.user == order.seller %}
+                                    <a href="{{ path('ad_order_finish', {'id': order.id}) }}" data-target="#ajax-modal" data-toggle="modal" class="btn btn-success tooltips" title="Закрыть заказ">
+                                        Подтвердить выполнение
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        
+                        <div class="portlet-body">
+                            <div class="row" style="margin-bottom: 15px;">
+
+                                <div class="col-md-3 col-sm-3 col-xs-6">
+                                    <div class="font-grey-mint font-sm">
+                                        Сумма заказа
+                                    </div>
+                                    <div class="uppercase font-hg font-red-flamingo">
+                                        {{ order.price }} <span class="font-lg font-grey-mint">$</span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-sm-3 col-xs-6">
+                                    <div class="font-grey-mint font-sm">
+                                        Дней на выполнение
+                                    </div>
+                                    <div class="uppercase font-hg font-red-flamingo">
+                                        {{ order.executDays }}
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-sm-3 col-xs-6">
+                                    <div class="font-grey-mint font-sm">
+                                        Осталось дней
+                                    </div>
+                                    <div class="uppercase font-hg font-red-flamingo">
+                                        {% if order.payStatus and order.status == 1 %}
+                                        {{ order.daysLeft }}
+                                        {% else %}
+                                            -
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-sm-3 col-xs-6">
+                                    <div class="font-grey-mint font-sm">
+                                        Текущий статус
+                                    </div>
+
+                                    {% if order.payStatus and order.status == 0 %}
+                                        <div class="uppercase font-hg font-blue">
+                                            Ожидание
+                                        </div>
+                                    {% elseif order.payStatus and order.status == 1 %}
+                                        <div class="uppercase font-hg font-green">
+                                            В процессе
+                                        </div>
+                                    {% elseif order.payStatus and order.status == 2 %}
+                                        <div class="uppercase font-hg font-grey">
+                                            Выполнен
+                                        </div>
+                                    {% endif %}
+
+                                </div>
+                            </div>
+                            
+
+                            <div class="row">
+                                <div class="col-lg-12 text-center">
+                                    <img style="max-width: 770px; max-height: 439px;" src="{{ asset(order.ad.cover)|imagine_filter('ad_slider_show') }}" alt="">
+                                </div>
+                            </div>
+                            
+                            
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <p>{{ order.ad.description }}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th>Наименовани</th>
+                                            <th>Колличество</th>
+                                            <th>Срок</th>
+                                            <th>Сумма</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <th>{{ order.title }}</th>
+                                            <th>1</th>
+                                            <th>{{ order.executDays }}</th>
+                                            <th>7</th>
+                                        </tr>
+                                        {% if order.subAd %}
+                                            {% for item in order.subAd %}
+                                                <tr>
+                                                    <td>{{ item.title }}</td>
+                                                    <td>1</td>
+                                                    <td>{{ item.execut_days }}</td>
+                                                    <td>{{ item.price }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        {% endif %}
+                                        <tr>
+                                            <th></th>
+                                            <th>Итого:</th>
+                                            <th>{{ order.executDaysAmount }}</th>
+                                            <th>{{ order.amount }}</th>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="portlet light">
+                        <div class="portlet-body">
+                            {% if dialog is defined %}
+                                <div style="height: 400px; overflow-y: scroll; width: auto;" id="dialogBodyContainer">
+                                    {{ include('@Message/Message/block/messages.html.twig', {'messages': dialog.messages}) }}
+                                </div>
+
+                                <h3>{% trans from 'FOSMessageBundle' %}reply{% endtrans %}</h3>
+
+                                <form id="formSendMessage" action="{{ url('fos_message_thread_view', {'threadId': dialog.id}) }}" method="post">
+                                    <div class="form-group">
+                                        {{ form_widget(form.body, {'attr': {'class': 'form-control'}}) }}
+                                    </div>
+                                    {{ form_widget(form) }}
+                                    <input type="submit" class="btn btn-primary pull-right" />
+                                </form>
+                                <div class="clearfix"></div>
+                            {% else %}
+                                <div class="alert alert-info alert-dismissable">
+                                    Диалог еще не был создан
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-lg-4">
+
+            {{ include('@User/User/shortProfile.html.twig', {'user': order.venditore}) }}
+
+            <div class="portlet light">
+                <div class="portlet-title">
+                    <div class="caption">
+                        Жалобы
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <form action="">
+                        <div class="form-group">
+                            <label>Сообщение</label>
+                            <textarea name="" class="form-control"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <a class="btn btn-primary pull-right">Пожаловаться</a>
+                        </div>
+                        <div class="clearfix"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+{% endblock %}
+

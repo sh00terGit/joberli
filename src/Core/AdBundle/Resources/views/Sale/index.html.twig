@@ -1,0 +1,77 @@
+{% extends 'CoreBundle::main.html.twig' %}
+
+{% block script %}
+
+{% endblock %}
+
+{% block content %}
+    <div class="row" style="margin-bottom: 20px;">
+        <div class="col-lg-12">
+            <a href="{{ path('ad_new') }}" class="btn btn-success">Добавить услугу</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2">
+        {{ include('@Ad/Sale/block/menu.html.twig') }}
+        </div>
+        <div class="col-lg-10">
+            <div class="portlet light">
+                <div class="portlet-title">
+                    <div class="caption">
+                        Продажи
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    {% if sales %}
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Название</th>
+                                <th>Статус</th>
+                                <th>Цена</th>
+                                <th>Заказчик</th>
+                                <th>Дни</th>
+                                <th>Дата</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for item in sales %}
+                                <tr id="adOrder{{ item.id }}">
+                                    <td>{{ item.id }}</td>
+                                    <td class="status">{{ include('@Ad/AdOrder/block/status.html.twig', {'order': item}) }}</td>
+                                    <td>
+                                        <a class="tooltips" title="Подробнее" href="{{ path('ad_order_show', {'id': item.id}) }}">
+                                            {{ item.title }}
+                                        </a>
+                                    </td>
+                                    <td>{{ item.price }}</td>
+                                    <td><a href="{{ path('user_page', {'id': item.seller.id}) }}">{{ item.seller.username }}</a></td>
+                                    <td>{{ item.executDays }}</td>
+                                    <td>{{ item.dateCreated|date('d.m.Y H:i') }}</td>
+                                    <td class="actions">
+                                        {% if item.status == 0 and item.payStatus %}
+                                            <a href="{{ path('ad_order_adopt', {'id': item.id}) }}" data-target="#ajax-modal" data-toggle="modal"  class="btn btn-success btn-xs tooltips" title="Принять заказ">
+                                                <i class="glyphicon glyphicon-ok"></i>
+                                            </a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <div class="alert alert-info">
+                            Вы еще ничего не продали
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block level_scripts %}
+    <script src="{{ asset('bundles/ad/js/adOrder.js') }}"></script>
+{% endblock %}

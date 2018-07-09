@@ -1,0 +1,125 @@
+{% extends 'CoreBundle::main.html.twig' %}
+
+{% block page_cover %}
+    <div class="container-fluid">
+        <div class="row" style="background: url({{ asset(entity.cover.path | imagine_filter('user_page_cover')) }}); background-size: cover; height: 400px;
+                padding-top: 150px; margin-bottom: -230px; -webkit-filter: brightness(0.7);">
+        </div>
+    </div>
+{% endblock %}
+
+{% block content -%}
+    <div class="row
+    {% if (entity.cover.fileName is defined) %}
+    row-category-show__title
+    {% endif %}
+            ">
+       <div class="col-lg-12">
+            <h1>{{ page.title }}</h1>
+            {% if entity.parent %}
+            <a href="{{ path('adcategory_show', {'slug': entity.parent.slug}) }}">В {{ entity.parent.title }}</a>
+            {% endif %}
+       </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="portlet light">
+                <div class="portlet-title">
+                    <div class="caption">
+                        Категории
+                    </div>
+                </div>
+                <div class="portlet-body todo-project-list-content" style="height: auto;">
+                    <div class="todo-project-list">
+                        {% if entity.parent %}
+                        <a style="
+                                font-size: 14px;
+                                font-weight: 900;
+                                color: #525252;
+                                display: block;
+                                padding: 12px 4px;
+                            " href="{{ path('adcategory_show', {'slug': entity.parent.slug}) }}">
+                            {{ entity.parent.title }}
+                        </a>
+                        <ul class="nav nav-pills nav-stacked">
+                            {% if entity.parent.child is defined %}
+                                {% for item in entity.parent.child %}
+                                    <li
+                                        {% if item.id == entity.id %}
+                                            class="active"
+                                        {% endif %}
+                                    >
+                                        <a href="{{ path('adcategory_show', {'slug': item.slug}) }}">
+                                            {{ item.title }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            {% endif %}
+
+                        </ul>
+                        {% else %}
+                        <a style="
+                                font-size: 14px;
+                                font-weight: 900;
+                                color: #525252;
+                                display: block;
+                                padding: 12px 4px;
+                            " href="{{ path('adcategory_show', {'slug': entity.slug}) }}">
+                            {{ entity.title }}
+                        </a>
+                        <ul class="nav nav-pills nav-stacked">
+                            {% if entity.child is defined %}
+                                {% for item in entity.child %}
+                                    <li>
+                                        <a href="{{ path('adcategory_show', {'slug': item.slug}) }}">
+                                            {{ item.title }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            {% endif %}
+
+                        </ul>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-9" style="padding-left: 30px;">
+            <div class="portlet light">
+                <div class="portlet-body">
+                    <div class="tabbable-line">
+                        <ul class="nav nav-tabs ">
+                            <li class="active">
+                                <a href="#tab_rating" data-toggle="tab">
+                                    По рейтингу </a>
+                            </li>
+                            <li>
+                                <a href="#tab_recomendet" data-toggle="tab">
+                                    Рекомендуемые </a>
+                            </li>
+                            <li>
+                                <a href="#tab_new" data-toggle="tab">
+                                    Новые </a>
+                            </li>
+                        </ul>
+
+
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tab_rating">
+                                {{ render(controller('AdBundle:Ad:showsCategory', {'categoryId': entity.id})) }}
+                            </div>
+                            <div class="tab-pane" id="tab_recomendet">
+                                Рекомендуемые
+                            </div>
+                            <div class="tab-pane" id="tab_new">
+                                Новые
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

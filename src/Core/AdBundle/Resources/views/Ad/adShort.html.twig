@@ -1,0 +1,54 @@
+<div class="{{ class }} ad-short">
+    <div class="ad-short__content">
+        <div class="row">
+            <div class="col-lg-12 ad-short__userinfo">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <span class="fa fa-user"></span>
+                        <a href="{{ path('user_page', {'id': ad.userCreate.id}) }}" class="tooltips" data-container="body" title="Страница пользователя">{{ ad.userCreate.username }}</a>
+                    </div>
+                    <div class="col-lg-6 text-right">
+                        <input type="hidden" class="rating" data-readonly value="{{ ad.ratingStars }}"/>
+                        ({{ ad.rating|length }})
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <a href="{{ path('ad_show', { 'slug': ad.slug }) }}" >
+                {% if ad.photos.first() %}
+                    <img style="width: 100%;" src="{{ ad.photos.first().photo.path|imagine_filter('ad_cover_show') }}" width="303" height="180" alt=""/>
+                {% else %}
+                    <img style="width: 100%;" class="img-responsive" src="{{ asset('bundles/core/img/no-image.jpg'|imagine_filter('ad_cover_show')) }}" alt="Нет фото"/>
+                {% endif %}
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 ad-short__info">
+                <p><a href="{{ path('ad_show', { 'slug': ad.slug }) }}">{{ ad.title }}</a></p>
+            </div>
+        </div>
+        <div class="row ad-short__btn-bar">
+            <div class="col-lg-12 ad-short__btn-bar__content">
+                {% if app.user and ad.isUserFavorite(app.user) %}
+                <a data-toggle="button" data-productid="{{ ad.id }}" class="btn btn-link tooltips adLike active" data-container="body" title="Убрать из избранного">
+                    <i class="icon-heart"></i>
+                </a>
+                {% else %}
+                <a data-toggle="button" data-productid="{{ ad.id }}" class="btn btn-link tooltips adLike" data-container="body" title="Добавить в избранное">
+                    <i class="icon-heart"></i>
+                </a>
+                {% endif %}
+                {% if ad.userFavorite | length > 0 %}
+                    <span class="likes">{{ ad.userFavorite | length }}</span>
+                {% endif %}
+
+                <a href="" class="btn btn-link pull-right tooltips" data-container="body" title="Добавить в корзину">
+                    <span class="ad-short__price">$7</span>
+                    <i class="icon-basket"></i>
+                </a>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>

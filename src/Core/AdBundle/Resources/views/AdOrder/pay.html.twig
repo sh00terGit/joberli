@@ -1,0 +1,77 @@
+{% extends 'CoreBundle::main.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <h1>Оплата: Заказ №{{ order.id }}</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 ad-order-pay-status">
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 portlet light">
+            <img style="width: 100%;" src="{{ order.ad.cover }}" width="303" height="180" alt=""/>
+
+            <dl>
+                <dt>Название услуги</dt>
+                <dd>{{ order.title }}</dd>
+
+                <dt>Дни на выполнения</dt>
+                <dd>{{ order.executDaysAmount }}</dd>
+
+                <dt>Цена</dt>
+                <dd>$ {{ order.amount }}</dd>
+            {% if order.subAd|length > 0 %}
+            <table class="table table-striped table-hover table-condensed">
+                <dt>Доп. Услуги</dt>
+                <dd>
+                {% for item in order.subAd %}
+                <tr>
+                    <th>{{ item.title }}</th>
+                    <td>${{ item.price }}</td>
+                </tr>
+                {% endfor %}
+                </dd>
+            </table>
+            {% endif %}
+            </dl>
+
+        </div>
+        
+        <div class="col-lg-4">
+            <div class="note note-info note-shadow">
+                <p>
+                    На Вашем балансе <strong>${{ order.seller.userData.balance }}</strong>
+                </p>
+            </div>
+            <a onclick="ad_order_pay()" class="btn btn-block btn-lg btn-success"><i class="fa fa-credit-card"></i> Оплатить</a>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block script %}
+    <script>
+        function ad_order_pay() {
+            $.ajax({
+                url:'{{ path("ad_order_pay", {"id": order.id}) }}',
+                type: 'post',
+                data: {action:'pay'},
+                dataType: 'json',
+                success: function (data) {
+                    if (data.success) {
+                        $('.ad-order-pay-status').html('<div class="alert alert-success">' +
+                                'Средства зачислены успешно' +
+                                '</div>');
+                    } else {
+                        $('.ad-order-pay-status').html('<div class="alert alert-danger">' + data.msg + '</div>');
+                    }
+                }
+            })
+        }
+
+    </script>
+{% endblock script %}

@@ -1,0 +1,8 @@
+parameters:
+    user.stat.class: Core\UserBundle\Manager\Stat
+
+services:
+    user.stat:
+        class: %user.stat.class%
+        arguments:
+          - "@doctrine.orm.default_entity_manager"
